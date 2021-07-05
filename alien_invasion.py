@@ -96,6 +96,7 @@ class AlienInvasion:
         """Watch for keyboard and mouse events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                self.stats.save_high_score()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
@@ -150,8 +151,11 @@ class AlienInvasion:
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group"""
         if len(self.bullets)<self.settings.bullets_allowed:
+            
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+            shot= pygame.mixer.Sound('Alien_Invasion/sounds/Galaga_Firing.wav')
+            shot.play(0)
 
     def _update_bullets(self):
         """Update position of bullets and get rid of old bullets"""
@@ -225,6 +229,7 @@ class AlienInvasion:
             #Pause
             sleep(0.5)
         else:
+            self.stats.save_high_score()
             self.stats.game_active=False
             pygame.mouse.set_visible(True)
 
